@@ -1,0 +1,95 @@
+# Gambas Form File 3.0
+
+{ Form Form
+  MoveScaled(0,0,197,109)
+  Arrangement = Arrange.Fill
+  { File Menu
+    Text = ("File")
+    { New Menu
+      Text = ("New")
+      Picture = Picture["icon:/small/new"]
+      Shortcut = "Ctrl+N"
+    }
+    { Open Menu
+      Text = ("Open")
+      Picture = Picture["icon:/small/open"]
+      Shortcut = "Ctrl+O"
+    }
+    { Save Menu
+      Text = ("Save")
+      Picture = Picture["icon:/small/save"]
+      Shortcut = "Ctrl+S"
+    }
+    { SaveAs Menu
+      Text = ("Save As") & "..."
+      Picture = Picture["icon:/small/save-as"]
+      Shortcut = "Ctrl+Shift+S"
+    }
+    { Close Menu
+      Text = ("Close")
+      Picture = Picture["icon:/small/close"]
+      Shortcut = "Ctrl+C"
+    }
+    { Quit Menu
+      Text = ("Quit")
+      Picture = Picture["icon:/small/quit"]
+      Shortcut = "Ctrl+Q"
+    }
+  }
+  { Edit Menu
+    Text = ("Edit")
+    { Preferences Menu
+      Text = ("Preferences")
+      Picture = Picture["icon:/small/properties"]
+      Shortcut = "Ctrl+P"
+    }
+  }
+  { Help Menu
+    Text = ("Help")
+    { Menu1 Menu
+      Text = ("Help")
+      Picture = Picture["icon:/small/help"]
+      Shortcut = "F1"
+    }
+    { About Menu
+      Text = ("About")
+      Picture = Picture["icon:/small/access"]
+    }
+  }
+  { AnimSplit HSplit
+    MoveScaled(1,1,194,103)
+    { AnimVBox VBox
+      MoveScaled(2,7,40,93)
+      { AnimLabel Label
+        MoveScaled(2,1,24,4)
+        Text = ("Animations")
+        Alignment = Align.Center
+      }
+      { HBox1 HBox
+        MoveScaled(2,6,36,6)
+        { AnimButtonNew Button
+          MoveScaled(10,1,5,4)
+          Expand = True
+          Text = ("New")
+        }
+        { Panel1 Panel
+          MoveScaled(17,2,4,3)
+          Expand = True
+        }
+        { AnimButtonDelete Button
+          MoveScaled(22,1,7,4)
+          Text = ("Delete")
+        }
+      }
+      { AnimationList ListView
+        MoveScaled(2,14,36,77)
+        Expand = True
+        Mode = Select.Multiple
+      }
+    }
+    { Button1 Button
+      MoveScaled(82,29,36,27)
+      Text = ("Filler")
+    }
+  }
+}

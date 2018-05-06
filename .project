@@ -1,0 +1,13 @@
+# Gambas Project File 3.0
+# Compiled with Gambas 3.9.1
+Title=some4
+Startup=FMain
+RedirectStderr=1
+Version=0.0.3
+Component=gb.image
+Component=gb.gtk
+Component=gb.form
+TabSize=2
+Language=en_US
+SourcePath=/home/computermouth/projects/concoord4
+Packager=1

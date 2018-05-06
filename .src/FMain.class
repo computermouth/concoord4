@@ -1,0 +1,52 @@
+' Gambas class file
+
+Static Private animCount As Integer = 0
+Static Private animSelected As String[]
+
+Public Sub Quit_Click()
+
+  Me.Close
+
+End
+
+Public Sub AnimButtonNew_Click()
+  
+  Dim tmpString As String = "untitled_" & CStr(animCount)
+  
+  AnimationList.Add(tmpString, tmpString)
+  animCount += 1
+  
+  AnimButtonDelete.Enabled = True
+
+End
+
+Public Sub AnimButtonDelete_Click()
+  
+  Dim widget As String = ""
+
+  If Not IsNull(animSelected) Then
+    For Each widget In animSelected
+      AnimationList.Remove(widget)
+    Next
+  Endif
+  
+  animSelected = Null
+  
+  If (AnimationList.Count = 0) Then
+    AnimButtonDelete.Enabled = False
+  Endif
+
+End
+
+Public Sub AnimationList_Select()
+
+  animSelected = AnimationList.Selection
+
+End
+
+Public Sub Form_Open()
+  
+  FMain.Resize(720, 480)
+  AnimSplit.Layout = [1, 4]
+
+End
