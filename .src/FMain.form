@@ -65,19 +65,23 @@
         Text = ("Animations")
         Alignment = Align.Center
       }
-      { HBox1 HBox
+      { AnimHBox HBox
         MoveScaled(2,6,36,6)
+        AutoResize = True
+        Padding = 5
         { AnimButtonNew Button
           MoveScaled(10,1,5,4)
-          Expand = True
+          AutoResize = True
           Text = ("New")
         }
         { Panel1 Panel
           MoveScaled(17,2,4,3)
           Expand = True
+          AutoResize = True
         }
         { AnimButtonDelete Button
           MoveScaled(22,1,7,4)
+          AutoResize = True
           Text = ("Delete")
         }
       }
@@ -87,9 +91,45 @@
         Mode = Select.Multiple
       }
     }
-    { Button1 Button
-      MoveScaled(82,29,36,27)
-      Text = ("Filler")
+    { FrameSplit HSplit
+      MoveScaled(43,2,149,99)
+      { VBox1 VBox
+        MoveScaled(1,7,33,91)
+        { FrameLabel Label
+          MoveScaled(0,0,24,4)
+          Text = ("Frames")
+          Alignment = Align.Center
+        }
+        { FrameHBox HBox
+          MoveScaled(2,5,28,6)
+          AutoResize = True
+          Padding = 5
+          { FrameButtonNew Button
+            MoveScaled(1,0,9,4)
+            AutoResize = True
+            Text = ("New")
+          }
+          { Panel2 Panel
+            MoveScaled(11,1,7,3)
+            Expand = True
+            AutoResize = True
+          }
+          { FrameButtonDelete Button
+            MoveScaled(20,0,7,4)
+            AutoResize = True
+            Text = ("Delete")
+          }
+        }
+        { FrameList ListView
+          MoveScaled(2,12,29,78)
+          Expand = True
+          Mode = Select.Multiple
+        }
+      }
+      { Button1 Button
+        MoveScaled(69,20,46,37)
+        Text = ("Filler")
+      }
     }
   }
 }

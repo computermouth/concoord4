@@ -47,6 +47,13 @@ End
 Public Sub Form_Open()
   
   FMain.Resize(720, 480)
+  FrameSplit.Layout = [2, 4]
   AnimSplit.Layout = [1, 4]
+
+End
+
+Public Sub FrameLabel_MouseDown()
+
+  
 
 End
