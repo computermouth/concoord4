@@ -86,7 +86,7 @@
         }
       }
       { AnimationList ListView
-        MoveScaled(2,14,36,77)
+        MoveScaled(6,15,30,62)
         Expand = True
         Mode = Select.Multiple
       }
@@ -121,14 +121,50 @@
           }
         }
         { FrameList ListView
-          MoveScaled(2,12,29,78)
+          MoveScaled(3,14,28,58)
           Expand = True
           Mode = Select.Multiple
         }
       }
-      { Button1 Button
-        MoveScaled(69,20,46,37)
-        Text = ("Filler")
+      { LayerSplit HSplit
+        MoveScaled(36,2,111,95)
+        { VBox2 VBox
+          MoveScaled(1,6,31,88)
+          { LayerLabel Label
+            MoveScaled(0,0,24,4)
+            Text = ("Layers")
+            Alignment = Align.Center
+          }
+          { HBox1 HBox
+            MoveScaled(2,5,27,6)
+            AutoResize = True
+            Padding = 5
+            { Button2 Button
+              MoveScaled(1,1,7,4)
+              AutoResize = True
+              Text = ("New")
+            }
+            { Panel3 Panel
+              MoveScaled(10,1,8,3)
+              Expand = True
+              AutoResize = True
+            }
+            { Button3 Button
+              MoveScaled(20,2,5,3)
+              AutoResize = True
+              Text = ("Delete")
+            }
+          }
+          { LayerList ListView
+            MoveScaled(2,15,26,47)
+            Expand = True
+            Mode = Select.Multiple
+          }
+        }
+        { Button1 Button
+          MoveScaled(45,18,50,47)
+          Text = ("Filler")
+        }
       }
     }
   }

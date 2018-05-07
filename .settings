@@ -8,7 +8,7 @@ Count=0
 Path="some4.gambas"
 
 [OpenFile]
-Active=2
+Active=1
 File[1]=".src/FMain.form"
 Count=2
 File[2]=".src/FMain.class:2.17"

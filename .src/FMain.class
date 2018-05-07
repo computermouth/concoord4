@@ -47,8 +47,9 @@ End
 Public Sub Form_Open()
   
   FMain.Resize(720, 480)
-  FrameSplit.Layout = [2, 4]
-  AnimSplit.Layout = [1, 4]
+  LayerSplit.Layout = [1, 4]
+  FrameSplit.Layout = [1, 5]
+  AnimSplit.Layout = [1, 6]
 
 End
 
