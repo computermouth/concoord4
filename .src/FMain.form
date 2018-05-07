@@ -94,7 +94,7 @@
         MoveScaled(2,86,36,5)
         Padding = 5
         { LCDLabel1 LCDLabel
-          MoveScaled(1,1,8,4)
+          MoveScaled(1,1,5,4)
           Expand = True
           Text = ("0")
           Alignment = Align.Left
@@ -179,9 +179,8 @@
         }
         { HBox2 HBox
           MoveScaled(34,3,75,91)
-          { DrawArea ScrollArea
-            MoveScaled(2,2,43,87)
-            Background = Color.Background
+          { Canvas DrawingArea
+            MoveScaled(2,2,61,86)
             Expand = True
           }
           { VBox3 VBox

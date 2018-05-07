@@ -51,12 +51,22 @@ Public Sub Form_Open()
   FrameSplit.Layout = [1, 5]
   AnimSplit.Layout = [1, 6]
   
-  
+  Canvas_Draw(1)
 
 End
 
 Public Sub FrameLabel_MouseDown()
 
   
+
+End
+
+Public Sub Canvas_Draw(Optional internalFlag As Integer = 0)
+
+  Select Case internalFlag
+    Case 0
+    Case 1
+       Print "bingo"
+  End Select
 
 End
