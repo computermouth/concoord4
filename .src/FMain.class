@@ -3,6 +3,8 @@
 Static Private animCount As Integer = 0
 Static Private animSelected As String[]
 
+Private DialogRename As FRename = New FRename
+
 Public Sub Quit_Click()
 
   Me.Close
@@ -47,26 +49,78 @@ End
 Public Sub Form_Open()
   
   FMain.Resize(1280, 720)
+  
   LayerSplit.Layout = [1, 4]
   FrameSplit.Layout = [1, 5]
   AnimSplit.Layout = [1, 6]
   
-  Canvas_Draw(1)
+  Dialog.Path = "."
 
 End
 
-Public Sub FrameLabel_MouseDown()
+Public Sub Canvas_Draw()
 
+  Dim DefaultX As Integer = 1280
+  Dim DefaultY As Integer = 720
   
+  Dim PadFromEdge As Integer = 10
+  
+  Dim ScaledX, ScaledY, PadX, PadY As Integer
+  Dim Ratio, RatioX, RatioY As Float
+  
+  Dim CenterX As Integer = Canvas.W / 2
+  Dim CenterY As Integer = Canvas.H / 2
+  
+  Dim Dashes As Float[] = [1.0, 1.0]
+  
+  If Canvas.W / DefaultX >= Canvas.H / DefaultY Then
+    Ratio = Canvas.H / DefaultY * 0.9
+  Else
+    Ratio = Canvas.W / DefaultX * 0.9
+  Endif
+  
+  Paint.Reset
+  
+  Paint.LineWidth = 1
+  Paint.Brush = Paint.Color(Color.Black)
+  Paint.Rectangle(CenterX - (DefaultX / 2 * Ratio), CenterY - (DefaultY / 2 * Ratio), DefaultX * Ratio, DefaultY * Ratio)
+  Paint.Stroke
+  
+  Paint.Dash = Dashes
+  Paint.Brush = Paint.Color(Color.White)
+  Paint.Rectangle(CenterX - (DefaultX / 2 * Ratio), CenterY - (DefaultY / 2 * Ratio), DefaultX * Ratio, DefaultY * Ratio)
+  Paint.Stroke
 
 End
 
-Public Sub Canvas_Draw(Optional internalFlag As Integer = 0)
+Public Sub LayerButtonImport_Click()
+  
+  Dialog.Filter = ["*.png;*.jpg;*.jpeg;*.bmp", "Picture files"]
+  If Dialog.OpenFile() Then
+    Print "cancel"
+  Else
+    Print Dialog.Path
+  Endif
 
-  Select Case internalFlag
-    Case 0
-    Case 1
-       Print "bingo"
-  End Select
+End
+
+Public Sub AnimRenameButton_Click()
+
+  Dim widget As String = ""
+
+  If Not IsNull(animSelected) Then
+    For Each widget In animSelected
+      
+      AnimationList.MoveTo(widget)
+      
+      DialogRename.NameString = AnimationList.Item.Text
+      If DialogRename.ShowModal() Then
+        AnimationList.Item.Text = DialogRename.NameString
+      Endif
+      
+    Next
+  Endif
+
+
 
 End

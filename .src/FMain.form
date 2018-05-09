@@ -70,17 +70,25 @@
         AutoResize = True
         Padding = 5
         { AnimButtonNew Button
-          MoveScaled(10,1,5,4)
+          MoveScaled(2,1,5,4)
           AutoResize = True
           Text = ("New")
         }
         { Panel1 Panel
-          MoveScaled(17,2,4,3)
+          MoveScaled(8,2,2,2)
           Expand = True
+        }
+        { AnimRenameButton Button
+          MoveScaled(11,1,11,4)
           AutoResize = True
+          Text = ("Rename")
+        }
+        { Panel6 Panel
+          MoveScaled(23,2,2,2)
+          Expand = True
         }
         { AnimButtonDelete Button
-          MoveScaled(22,1,7,4)
+          MoveScaled(27,1,7,4)
           AutoResize = True
           Text = ("Delete")
         }
@@ -89,6 +97,7 @@
         MoveScaled(6,15,30,62)
         Expand = True
         Mode = Select.Multiple
+        Editable = True
       }
       { HBox3 HBox
         MoveScaled(2,86,36,5)
@@ -155,17 +164,27 @@
             MoveScaled(2,5,27,6)
             AutoResize = True
             Padding = 5
-            { Button2 Button
-              MoveScaled(1,1,7,4)
+            { LayerButtonNew Button
+              MoveScaled(1,1,5,4)
               AutoResize = True
               Text = ("New")
             }
             { Panel3 Panel
-              MoveScaled(10,1,8,3)
+              MoveScaled(7,2,3,3)
               Expand = True
               AutoResize = True
             }
-            { Button3 Button
+            { LayerButtonImport Button
+              MoveScaled(10,1,6,4)
+              AutoResize = True
+              Text = ("Import")
+            }
+            { Panel4 Panel
+              MoveScaled(17,2,3,3)
+              Expand = True
+              AutoResize = True
+            }
+            { LayerButtonDelete Button
               MoveScaled(20,2,5,3)
               AutoResize = True
               Text = ("Delete")
@@ -179,42 +198,46 @@
         }
         { HBox2 HBox
           MoveScaled(34,3,75,91)
-          { Canvas DrawingArea
-            MoveScaled(2,2,61,86)
+          Padding = 5
+          { Canvas ScrollArea
+            MoveScaled(1,1,63,88)
             Expand = True
+            AutoResize = True
+          }
+          { Panel5 Panel
+            MoveScaled(65,24,0.7143,28.5714)
           }
           { VBox3 VBox
             MoveScaled(68,1,6,87)
-            Padding = 5
             { Button1 Button
-              MoveScaled(1,1,4,4)
+              MoveScaled(1,1,4,5)
               AutoResize = True
               Picture = Picture["icon:/small/pen"]
             }
             { Button4 Button
-              MoveScaled(1,6,4,4)
+              MoveScaled(1,7,4,5)
               AutoResize = True
-              Picture = Picture["icon:/small/tablet"]
+              Picture = Picture["icon:/small/mouse"]
             }
             { ColorButton1 ColorButton
-              MoveScaled(1,11,4,4)
+              MoveScaled(1,13,4,5)
             }
             { ColorButton2 ColorButton
-              MoveScaled(1,16,4,4)
+              MoveScaled(1,19,4,5)
             }
             { Separator1 Separator
-              MoveScaled(1,20,4,2)
+              MoveScaled(1,24,4,2)
             }
             { Button5 Button
-              MoveScaled(1,22,4,4)
+              MoveScaled(1,26,4,5)
               Picture = Picture["icon:/small/zoom-in"]
             }
             { Button6 Button
-              MoveScaled(1,27,4,4)
+              MoveScaled(1,32,4,5)
               Picture = Picture["icon:/small/zoom-out"]
             }
             { Button7 Button
-              MoveScaled(1,32,4,4)
+              MoveScaled(1,38,4,5)
               Picture = Picture["icon:/small/zoom-normal"]
             }
           }

@@ -8,10 +8,10 @@ Count=0
 Path="some4.gambas"
 
 [OpenFile]
-Active=1
+Active=2
 File[1]=".src/FMain.form"
 Count=2
-File[2]=".src/FMain.class:2.17"
+File[2]=".src/FMain.class:27.54"
 
 [Watches]
 Count=0

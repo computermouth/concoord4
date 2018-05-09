@@ -1,0 +1,29 @@
+' Gambas class file
+
+Property NameString As String
+
+Private Function NameString_Read() As String
+  Return RenameTextBox.Text
+End
+
+Private Function NameString_Write(ns As String)
+  RenameTextBox.Text = ns
+End
+
+Public Sub Run() As Boolean
+
+  Return Not Me.ShowModal()
+
+End
+
+Public Sub RenameOK_Click()
+
+  Me.Close(True)
+
+End
+
+Public Sub RenameCancel_Click()
+
+  Me.Close()
+
+End
