@@ -1,9 +1,9 @@
 ' Gambas class file
 
-Static Private animCount As Integer = 0
-Static Private animSelected As String[]
+Static Private created As Integer = 1
 
-Private DialogRename As FRename = New FRename
+Static Private sprite As CSprite = New CSprite
+
 
 Public Sub Quit_Click()
 
@@ -11,38 +11,98 @@ Public Sub Quit_Click()
 
 End
 
-Public Sub AnimButtonNew_Click()
+Public Sub RefreshLists()
   
-  Dim tmpString As String = "untitled_" & CStr(animCount)
+  Dim uuidA As Integer = 0
+  Dim numAnimations As Integer = sprite.Animations.Length
+  Dim numFrames As Integer
+  Dim numLayers As Integer
+  Dim selAnimation As String = ""
   
-  AnimationList.Add(tmpString, tmpString)
-  animCount += 1
+  If AnimationList.Selection.Length > 0 Then
+    selAnimation = AnimationList.Current.Key
+  Endif
   
-  AnimButtonDelete.Enabled = True
+  
+  AnimationList.Clear
+  FrameList.Clear
+  LayerList.Clear
+  
+  
+  For uuidA = 0 To (numAnimations - 1) 'Zero Indexed!
+    AnimationList.Add(uuidA, sprite.Animations[uuidA].Name)
+  Next
+  
+  'retain selection
+  If Len(selAnimation) > 0 Then
+    AnimationList.MoveTo(selAnimation)
+    AnimationList.Item.Selected = True
+  Endif
+  
+  
+End
+
+
+Public Sub AnimButtonAdd_Click()
+  
+  Dim tmpString As String = "untitled_" & CStr(created)
+  Dim newAnimation As CAnimation = New CAnimation
+  
+  created += 1
+  newAnimation.Name = tmpString
+  
+  If sprite.Animations.Length == 0 Then
+    sprite.Animations = New CAnimation[]
+  Endif
+  
+  sprite.Animations.Add(newAnimation)
+  AnimLengthLabel.Text = sprite.Animations.Length
+  
+  RefreshLists
 
 End
 
-Public Sub AnimButtonDelete_Click()
-  
-  Dim widget As String = ""
-
-  If Not IsNull(animSelected) Then
-    For Each widget In animSelected
-      AnimationList.Remove(widget)
-    Next
-  Endif
-  
-  animSelected = Null
+Public Sub AnimButtonBottom_Click()
   
   If (AnimationList.Count = 0) Then
-    AnimButtonDelete.Enabled = False
+    AnimButtonBottom.Enabled = False
   Endif
 
 End
 
-Public Sub AnimationList_Select()
 
-  animSelected = AnimationList.Selection
+Public Sub AnimationList_Select()
+  
+  Dim currentKey As Integer = AnimationList.Current.Key + 1
+  
+  AnimSelectedLabel.Text = currentKey
+  
+  'enable top/up
+  If sprite.Animations.Length > 1 And AnimationList.Selection.Length > 0 And currentKey > 1 Then
+    AnimButtonTop.Enabled = True
+    AnimButtonUp.Enabled = True
+  Else If sprite.Animations.Length < 2 Or AnimationList.Selection.Length == 0 Or currentKey == 1 Then
+    AnimButtonTop.Enabled = False
+    AnimButtonUp.Enabled = False
+  Endif
+  
+  'enable bottom/down
+  If sprite.Animations.Length > 1 And AnimationList.Selection.Length > 0 And currentKey < sprite.Animations.Length Then
+    AnimButtonBottom.Enabled = True
+    AnimButtonDown.Enabled = True
+  Else If sprite.Animations.Length < 2 Or AnimationList.Selection.Length == 0 Or currentKey == sprite.Animations.Length Then
+    AnimButtonBottom.Enabled = False
+    AnimButtonDown.Enabled = False
+  Endif
+  
+  
+End
+
+Public Sub AnimationList_Rename()
+  
+  Dim currentKey As Integer = AnimationList.Current.Key
+  
+  sprite.Animations[currentKey].Name = AnimationList.Current.Text
 
 End
 
@@ -55,6 +115,9 @@ Public Sub Form_Open()
   AnimSplit.Layout = [1, 6]
   
   Dialog.Path = "."
+  
+  sprite.Animations = New CAnimation[]
+  
 
 End
 
@@ -93,7 +156,7 @@ Public Sub Canvas_Draw()
 
 End
 
-Public Sub LayerButtonImport_Click()
+Public Sub LayerButtonImage_Click()
   
   Dialog.Filter = ["*.png;*.jpg;*.jpeg;*.bmp", "Picture files"]
   If Dialog.OpenFile() Then
@@ -104,23 +167,19 @@ Public Sub LayerButtonImport_Click()
 
 End
 
-Public Sub AnimRenameButton_Click()
+Public Sub AnimationList_DblClick()
 
-  Dim widget As String = ""
+  AnimationList.Current.Rename
 
-  If Not IsNull(animSelected) Then
-    For Each widget In animSelected
-      
-      AnimationList.MoveTo(widget)
-      
-      DialogRename.NameString = AnimationList.Item.Text
-      If DialogRename.ShowModal() Then
-        AnimationList.Item.Text = DialogRename.NameString
-      Endif
-      
-    Next
-  Endif
+End
 
+Public Sub AnimButtonTop_Click()
 
-
+  Dim currentKey As Integer = AnimationList.Current.Key
+  
+  sprite.Animations.Add(sprite.Animations[currentKey], 0)
+  sprite.Animations.Remove(currentKey + 1)
+  
+  RefreshLists()
+  
 End

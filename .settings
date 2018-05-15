@@ -4,14 +4,21 @@ Count=0
 [DebugWindow]
 Count=0
 
+[DebugWindow/String]
+Geometry=[0,29,224,280]
+
 [Executable]
 Path="some4.gambas"
 
 [OpenFile]
 Active=2
 File[1]=".src/FMain.form"
-Count=2
-File[2]=".src/FMain.class:27.54"
+Count=6
+File[2]=".src/FMain.class:2.26"
+File[3]=".src/CSprite.class:33.3"
+File[4]=".src/CAnimation.class:21.2"
+File[5]=".src/CFrame.class:21.2"
+File[6]=".src/CLayer.class:21.2"
 
 [Watches]
 Count=0

@@ -25,11 +25,6 @@
       Picture = Picture["icon:/small/save-as"]
       Shortcut = "Ctrl+Shift+S"
     }
-    { Close Menu
-      Text = ("Close")
-      Picture = Picture["icon:/small/close"]
-      Shortcut = "Ctrl+C"
-    }
     { Quit Menu
       Text = ("Quit")
       Picture = Picture["icon:/small/quit"]
@@ -60,6 +55,7 @@
     MoveScaled(1,1,194,103)
     { AnimVBox VBox
       MoveScaled(2,7,40,93)
+      Padding = 5
       { AnimLabel Label
         MoveScaled(2,1,24,4)
         Text = ("Animations")
@@ -69,46 +65,62 @@
         MoveScaled(2,6,36,6)
         AutoResize = True
         Padding = 5
-        { AnimButtonNew Button
-          MoveScaled(2,1,5,4)
-          AutoResize = True
-          Text = ("New")
+        { AnimButtonAdd Button
+          MoveScaled(1,1,4,4)
+          Picture = Picture["icon:/small/add"]
         }
         { Panel1 Panel
-          MoveScaled(8,2,2,2)
+          MoveScaled(5,2,2,2)
           Expand = True
         }
-        { AnimRenameButton Button
-          MoveScaled(11,1,11,4)
-          AutoResize = True
-          Text = ("Rename")
+        { AnimButtonTop Button
+          MoveScaled(8,1,4,4)
+          Enabled = False
+          Picture = Picture["icon:/small/top"]
+        }
+        { Panel7 Panel
+          MoveScaled(12,2,2,2)
+          Expand = True
+        }
+        { AnimButtonUp Button
+          MoveScaled(15,1,4,4)
+          Enabled = False
+          Picture = Picture["icon:/small/up"]
         }
         { Panel6 Panel
-          MoveScaled(23,2,2,2)
+          MoveScaled(20,2,2,2)
           Expand = True
         }
-        { AnimButtonDelete Button
-          MoveScaled(27,1,7,4)
-          AutoResize = True
-          Text = ("Delete")
+        { AnimButtonDown Button
+          MoveScaled(23,1,4,4)
+          Enabled = False
+          Picture = Picture["icon:/small/down"]
+        }
+        { Panel8 Panel
+          MoveScaled(28,2,2,2)
+          Expand = True
+        }
+        { AnimButtonBottom Button
+          MoveScaled(31,1,4,4)
+          Enabled = False
+          Picture = Picture["icon:/small/bottom"]
         }
       }
       { AnimationList ListView
         MoveScaled(6,15,30,62)
         Expand = True
-        Mode = Select.Multiple
         Editable = True
       }
       { HBox3 HBox
         MoveScaled(2,86,36,5)
         Padding = 5
-        { LCDLabel1 LCDLabel
+        { AnimSelectedLabel LCDLabel
           MoveScaled(1,1,5,4)
           Expand = True
           Text = ("0")
           Alignment = Align.Left
         }
-        { LCDLabel2 LCDLabel
+        { AnimLengthLabel LCDLabel
           MoveScaled(26,1,9,4)
           Expand = True
           Text = ("0")
@@ -120,84 +132,167 @@
       MoveScaled(43,2,149,99)
       { VBox1 VBox
         MoveScaled(1,7,33,91)
+        Padding = 5
         { FrameLabel Label
           MoveScaled(0,0,24,4)
           Text = ("Frames")
           Alignment = Align.Center
         }
-        { FrameHBox HBox
-          MoveScaled(2,5,28,6)
+        { AnimHBox2 HBox
+          MoveScaled(1,4,30,6)
           AutoResize = True
           Padding = 5
-          { FrameButtonNew Button
-            MoveScaled(1,0,9,4)
-            AutoResize = True
-            Text = ("New")
+          { FrameButtonAdd Button
+            MoveScaled(1,1,4,4)
+            Enabled = False
+            Picture = Picture["icon:/small/add"]
           }
           { Panel2 Panel
-            MoveScaled(11,1,7,3)
+            MoveScaled(5,2,2,2)
             Expand = True
-            AutoResize = True
           }
-          { FrameButtonDelete Button
-            MoveScaled(20,0,7,4)
-            AutoResize = True
-            Text = ("Delete")
+          { FrameButtonTop Button
+            MoveScaled(7,1,4,4)
+            Enabled = False
+            Picture = Picture["icon:/small/top"]
+          }
+          { Panel9 Panel
+            MoveScaled(11,2,2,2)
+            Expand = True
+          }
+          { FrameButtonUp Button
+            MoveScaled(13,1,4,4)
+            Enabled = False
+            Picture = Picture["icon:/small/up"]
+          }
+          { Panel10 Panel
+            MoveScaled(17,2,2,2)
+            Expand = True
+          }
+          { FrameButtonDown Button
+            MoveScaled(19,1,4,4)
+            Enabled = False
+            Picture = Picture["icon:/small/down"]
+          }
+          { Panel11 Panel
+            MoveScaled(23,2,2,2)
+            Expand = True
+          }
+          { FrameButtonBottom Button
+            MoveScaled(25,1,4,4)
+            Enabled = False
+            Picture = Picture["icon:/small/bottom"]
           }
         }
         { FrameList ListView
           MoveScaled(3,14,28,58)
           Expand = True
-          Mode = Select.Multiple
+        }
+        { HBox1 HBox
+          MoveScaled(2,84,29,5)
+          Padding = 5
+          { FrameSelectedLabel LCDLabel
+            MoveScaled(1,1,5,4)
+            Expand = True
+            Text = ("0")
+            Alignment = Align.Left
+          }
+          { FrameLengthLabel LCDLabel
+            MoveScaled(19,1,9,4)
+            Expand = True
+            Text = ("0")
+            Alignment = Align.Right
+          }
         }
       }
       { LayerSplit HSplit
         MoveScaled(36,2,111,95)
         { VBox2 VBox
-          MoveScaled(1,6,31,88)
+          MoveScaled(1,6,34,88)
+          Padding = 5
           { LayerLabel Label
             MoveScaled(0,0,24,4)
             Text = ("Layers")
             Alignment = Align.Center
           }
-          { HBox1 HBox
-            MoveScaled(2,5,27,6)
+          { AnimHBox3 HBox
+            MoveScaled(1,4,32,6)
             AutoResize = True
             Padding = 5
-            { LayerButtonNew Button
-              MoveScaled(1,1,5,4)
-              AutoResize = True
-              Text = ("New")
+            { LayerButtonAdd Button
+              MoveScaled(0,1,4,4)
+              Enabled = False
+              Picture = Picture["icon:/small/add"]
+            }
+            { Panel12 Panel
+              MoveScaled(4,2,2,2)
+              Expand = True
+            }
+            { LayerButtonImage Button
+              MoveScaled(5,1,4,4)
+              Enabled = False
+              Picture = Picture["icon:/small/insert-image"]
             }
             { Panel3 Panel
-              MoveScaled(7,2,3,3)
+              MoveScaled(8,2,2,2)
               Expand = True
-              AutoResize = True
             }
-            { LayerButtonImport Button
-              MoveScaled(10,1,6,4)
-              AutoResize = True
-              Text = ("Import")
+            { LayerButtonTop Button
+              MoveScaled(10,1,4,4)
+              Enabled = False
+              Picture = Picture["icon:/small/top"]
             }
-            { Panel4 Panel
-              MoveScaled(17,2,3,3)
+            { Panel13 Panel
+              MoveScaled(14,2,2,2)
               Expand = True
-              AutoResize = True
             }
-            { LayerButtonDelete Button
-              MoveScaled(20,2,5,3)
-              AutoResize = True
-              Text = ("Delete")
+            { LayerButtonUp Button
+              MoveScaled(16,1,4,4)
+              Enabled = False
+              Picture = Picture["icon:/small/up"]
+            }
+            { Panel14 Panel
+              MoveScaled(20,2,2,2)
+              Expand = True
+            }
+            { LayerButtonDown Button
+              MoveScaled(22,1,4,4)
+              Enabled = False
+              Picture = Picture["icon:/small/down"]
+            }
+            { Panel15 Panel
+              MoveScaled(26,2,2,2)
+              Expand = True
+            }
+            { LayerButtonBottom Button
+              MoveScaled(28,1,4,4)
+              Enabled = False
+              Picture = Picture["icon:/small/bottom"]
             }
           }
           { LayerList ListView
-            MoveScaled(2,15,26,47)
+            MoveScaled(2,15,28,47)
             Expand = True
-            Mode = Select.Multiple
+          }
+          { HBox4 HBox
+            MoveScaled(3,82,29,5)
+            Padding = 5
+            { LayerSelectedLabel LCDLabel
+              MoveScaled(1,1,5,4)
+              Expand = True
+              Text = ("0")
+              Alignment = Align.Left
+            }
+            { LayerLengthLabel LCDLabel
+              MoveScaled(19,1,9,4)
+              Expand = True
+              Text = ("0")
+              Alignment = Align.Right
+            }
           }
         }
         { HBox2 HBox
-          MoveScaled(34,3,75,91)
+          MoveScaled(36,3,73,91)
           Padding = 5
           { Canvas ScrollArea
             MoveScaled(1,1,63,88)
@@ -208,37 +303,26 @@
             MoveScaled(65,24,0.7143,28.5714)
           }
           { VBox3 VBox
-            MoveScaled(68,1,6,87)
+            MoveScaled(66,1,6,87)
             { Button1 Button
               MoveScaled(1,1,4,5)
+              Enabled = False
               AutoResize = True
               Picture = Picture["icon:/small/pen"]
             }
             { Button4 Button
               MoveScaled(1,7,4,5)
+              Enabled = False
               AutoResize = True
               Picture = Picture["icon:/small/mouse"]
             }
             { ColorButton1 ColorButton
               MoveScaled(1,13,4,5)
+              Enabled = False
             }
             { ColorButton2 ColorButton
               MoveScaled(1,19,4,5)
-            }
-            { Separator1 Separator
-              MoveScaled(1,24,4,2)
-            }
-            { Button5 Button
-              MoveScaled(1,26,4,5)
-              Picture = Picture["icon:/small/zoom-in"]
-            }
-            { Button6 Button
-              MoveScaled(1,32,4,5)
-              Picture = Picture["icon:/small/zoom-out"]
-            }
-            { Button7 Button
-              MoveScaled(1,38,4,5)
-              Picture = Picture["icon:/small/zoom-normal"]
+              Enabled = False
             }
           }
         }
