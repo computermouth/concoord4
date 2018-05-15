@@ -62,15 +62,6 @@ Public Sub AnimButtonAdd_Click()
 
 End
 
-Public Sub AnimButtonBottom_Click()
-  
-  If (AnimationList.Count = 0) Then
-    AnimButtonBottom.Enabled = False
-  Endif
-
-End
-
-
 Public Sub AnimationList_Select()
   
   Dim currentKey As Integer = AnimationList.Current.Key + 1
@@ -181,5 +172,51 @@ Public Sub AnimButtonTop_Click()
   sprite.Animations.Remove(currentKey + 1)
   
   RefreshLists()
+  
+  AnimationList.MoveTo("0")
+  AnimationList.Item.Selected = True
+  
+End
+
+
+Public Sub AnimButtonUp_Click()
+
+  Dim currentKey As Integer = AnimationList.Current.Key
+  
+  sprite.Animations.Add(sprite.Animations[currentKey], currentKey - 1)
+  sprite.Animations.Remove(currentKey + 1)
+  
+  RefreshLists()
+  
+  AnimationList.MoveTo(currentKey - 1)
+  AnimationList.Item.Selected = True
+
+End
+
+Public Sub AnimButtonBottom_Click()
+  
+  Dim currentKey As Integer = AnimationList.Current.Key
+  
+  sprite.Animations.Add(sprite.Animations[currentKey])
+  sprite.Animations.Remove(currentKey)
+  
+  RefreshLists()
+  
+  AnimationList.MoveTo(sprite.Animations.Length - 1)
+  AnimationList.Item.Selected = True
+
+End
+
+Public Sub AnimButtonDown_Click()
+
+  Dim currentKey As Integer = AnimationList.Current.Key
+  
+  sprite.Animations.Add(sprite.Animations[currentKey], currentKey + 2)
+  sprite.Animations.Remove(currentKey)
+  
+  RefreshLists()
+  
+  AnimationList.MoveTo(currentKey + 1)
+  AnimationList.Item.Selected = True
   
 End
