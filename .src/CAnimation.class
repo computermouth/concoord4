@@ -1,4 +1,6 @@
 ' Gambas class file
 
 Public Name As String
+Public ChildSelected As Integer
+Public ChildrenCreated As Integer
 Public Frames As CFrame[]
