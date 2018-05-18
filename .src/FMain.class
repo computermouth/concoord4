@@ -289,12 +289,12 @@ Public Sub FrameList_Select()
   
   'enable bottom/down
   If sprite.Animations[sprite.ChildSelected].Frames.Length > 1 And FrameList.Selection.Length > 0 And currentKey < sprite.Animations[sprite.ChildSelected].Frames.Length Then
-    AnimButtonBottom.Enabled = True
-    AnimButtonDown.Enabled = True
+    FrameButtonBottom.Enabled = True
+    FrameButtonDown.Enabled = True
     addLayer = True
   Else If sprite.Animations[sprite.ChildSelected].Frames.Length < 2 Or FrameList.Selection.Length == 0 Or currentKey == sprite.Animations[sprite.ChildSelected].Frames.Length Then
-    AnimButtonBottom.Enabled = False
-    AnimButtonDown.Enabled = False
+    FrameButtonBottom.Enabled = False
+    FrameButtonDown.Enabled = False
   Endif
   
   LayerButtonAdd.Enabled = addLayer
@@ -319,4 +319,60 @@ Public Sub FrameList_DblClick()
 
   FrameList.Current.Rename
 
+End
+
+Public Sub FrameButtonTop_Click()
+
+  Dim currentKey As Integer = FrameList.Current.Key
+  
+  sprite.Animations[sprite.ChildSelected].Frames.Add(sprite.Animations[sprite.ChildSelected].Frames[currentKey], 0)
+  sprite.Animations[sprite.ChildSelected].Frames.Remove(currentKey + 1)
+  
+  RefreshFList()
+  
+  FrameList.MoveTo("0")
+  FrameList.Item.Selected = True
+  
+End
+
+Public Sub FrameButtonUp_Click()
+
+  Dim currentKey As Integer = FrameList.Current.Key
+  
+  sprite.Animations[sprite.ChildSelected].Frames.Add(sprite.Animations[sprite.ChildSelected].Frames[currentKey], currentKey - 1)
+  sprite.Animations[sprite.ChildSelected].Frames.Remove(currentKey + 1)
+  
+  RefreshFList()
+  
+  FrameList.MoveTo(currentKey - 1)
+  FrameList.Item.Selected = True
+
+End
+
+Public Sub FrameButtonBottom_Click()
+  
+  Dim currentKey As Integer = FrameList.Current.Key
+  
+  sprite.Animations[sprite.ChildSelected].Frames.Add(sprite.Animations[sprite.ChildSelected].Frames[currentKey])
+  sprite.Animations[sprite.ChildSelected].Frames.Remove(currentKey)
+  
+  RefreshFList()
+  
+  FrameList.MoveTo(sprite.Animations[sprite.ChildSelected].Frames.Length - 1)
+  FrameList.Item.Selected = True
+
+End
+
+Public Sub FrameButtonDown_Click()
+
+  Dim currentKey As Integer = FrameList.Current.Key
+  
+  sprite.Animations[sprite.ChildSelected].Frames.Add(sprite.Animations[sprite.ChildSelected].Frames[currentKey], currentKey + 2)
+  sprite.Animations[sprite.ChildSelected].Frames.Remove(currentKey)
+  
+  RefreshFList()
+  
+  FrameList.MoveTo(currentKey + 1)
+  FrameList.Item.Selected = True
+  
 End
