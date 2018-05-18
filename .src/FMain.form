@@ -187,6 +187,7 @@
         { FrameList ListView
           MoveScaled(3,14,28,58)
           Expand = True
+          Editable = True
         }
         { HBox1 HBox
           MoveScaled(2,84,29,5)
@@ -273,6 +274,7 @@
           { LayerList ListView
             MoveScaled(2,15,28,47)
             Expand = True
+            Editable = True
           }
           { HBox4 HBox
             MoveScaled(3,82,29,5)
