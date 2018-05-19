@@ -44,12 +44,21 @@ Public Sub RefreshAList()
     AnimationList.Item.Selected = True
   Endif
   
+  AnimSelectedLabel.Text = sprite.ChildSelected + 1
+  AnimLengthLabel.Text = sprite.Animations.Length
+  
 End
 
 Public Sub RefreshFList()
   
   Dim uuidF As Integer = 0
-  Dim numFrames As Integer = sprite.Animations[sprite.ChildSelected].Frames.Length
+  Dim numFrames As Integer
+  
+  If sprite.Animations.Length > 0 Then
+    numFrames = sprite.Animations[sprite.ChildSelected].Frames.Length
+  Else
+    Return
+  Endif
   
   FrameList.Clear
   
@@ -58,11 +67,14 @@ Public Sub RefreshFList()
   Next
   
   'retain selection
-  If sprite.Animations[sprite.ChildSelected].Frames.Length >= 0
+  If sprite.Animations[sprite.ChildSelected].Frames.Length > 0
     FrameList.MoveTo(sprite.Animations[sprite.ChildSelected].ChildSelected)
     FrameList.Item.Selected = True
   Endif
-
+  
+  FrameSelectedLabel.Text = sprite.Animations[sprite.ChildSelected].ChildSelected + 1
+  FrameLengthLabel.Text = sprite.Animations[sprite.ChildSelected].Frames.Length
+  
 End
 
 Public Sub Canvas_Draw()
@@ -126,10 +138,13 @@ Public Sub AnimButtonAdd_Click()
   newAnimation.Name = tmpString
   
   sprite.Animations.Add(newAnimation)
+  sprite.ChildSelected = sprite.Animations.Length - 1
   
   AnimLengthLabel.Text = sprite.Animations.Length
   
   RefreshAList()
+  
+  AnimationList.Current.Rename
 
 End
 
@@ -229,6 +244,33 @@ Public Sub AnimButtonBottom_Click()
   AnimationList.MoveTo(sprite.Animations.Length - 1)
   AnimationList.Item.Selected = True
 
+End
+
+Public Sub AnimationList_KeyRelease()
+
+  Dim DialogConfirmDelete As FConfirmDelete = New FConfirmDelete
+  
+  If Key.Code == Key.Delete And sprite.Animations.Length > 0 Then
+    
+    DialogConfirmDelete.Title = "Delete Animation?"
+    DialogConfirmDelete.DeleteName = sprite.Animations[sprite.ChildSelected].Name
+    DialogConfirmDelete.DeleteType = "animation"
+    
+    If DialogConfirmDelete.ShowModal() Then
+      sprite.Animations.Remove(sprite.ChildSelected)
+      
+      If sprite.ChildSelected > 0 Then
+        sprite.ChildSelected -= 1
+      Else
+        sprite.ChildSelected = 0
+      Endif
+      
+      RefreshAList()
+      RefreshFList()
+    Endif
+  
+  Endif
+  
 End
 
 Public Sub AnimButtonDown_Click()

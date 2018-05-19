@@ -11,15 +11,17 @@ Geometry=[0,29,224,280]
 Path="some4.gambas"
 
 [OpenFile]
-Active=2
+Active=7
 File[1]=".src/FMain.form"
-Count=6
-File[2]=".src/FMain.class:14.93"
+Count=8
+File[2]=".src/FMain.class:0.317"
 File[3]=".src/CSprite.class:23.3"
 File[4]=".src/CAnimation.class:33.4"
 File[5]=".src/CFrame.class:33.4"
 File[6]=".src/CLayer.class:33.4"
-Fold[2]=[176,184]
+Fold[2]=[150,205,234,248,289]
+File[7]=".src/FConfirmDelete.form"
+File[8]=".src/FConfirmDelete.class:115.27"
 
 [Watches]
 Count=0

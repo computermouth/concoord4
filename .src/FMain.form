@@ -117,7 +117,7 @@
         { AnimSelectedLabel LCDLabel
           MoveScaled(1,1,5,4)
           Expand = True
-          Text = ("0")
+          Text = ("NIL")
           Alignment = Align.Left
         }
         { AnimLengthLabel LCDLabel
@@ -195,7 +195,7 @@
           { FrameSelectedLabel LCDLabel
             MoveScaled(1,1,5,4)
             Expand = True
-            Text = ("0")
+            Text = ("NIL")
             Alignment = Align.Left
           }
           { FrameLengthLabel LCDLabel
@@ -282,7 +282,7 @@
             { LayerSelectedLabel LCDLabel
               MoveScaled(1,1,5,4)
               Expand = True
-              Text = ("0")
+              Text = ("NIL")
               Alignment = Align.Left
             }
             { LayerLengthLabel LCDLabel

@@ -1,0 +1,30 @@
+' Gambas class file
+
+Public DeleteType As String
+Public DeleteName As String
+
+
+Public Sub Run() As Boolean
+  
+  Return Not Me.ShowModal()
+  
+End
+
+
+Public Sub Delete_Click()
+
+  Me.Close(True)
+
+End
+
+Public Sub Cancel_Click()
+
+  Me.Close()
+
+End
+
+Public Sub Form_Open()
+
+  QuestionLabel.Text = "Are you sure you want to delete " & CStr(Me.DeleteType) & " '" & CStr(Me.DeleteName) & "',"
+  
+End
