@@ -18,7 +18,7 @@ Public Sub Form_Open()
   sprite.Animations = New CAnimation[]
   sprite.ChildSelected = 0
   sprite.ChildrenCreated = 0
-
+  
 End
 
 Public Sub Quit_Click()
@@ -26,6 +26,36 @@ Public Sub Quit_Click()
   Me.Close
 
 End
+
+Public Sub RefreshAButtons()
+  
+  Dim addFrame As Boolean = False
+  Dim currentKey As Integer = sprite.ChildSelected + 1
+  
+  'enable top/up
+  If sprite.Animations.Length > 1 And AnimationList.Selection.Length > 0 And currentKey > 1 Then
+    AnimButtonTop.Enabled = True
+    AnimButtonUp.Enabled = True
+    addFrame = True
+  Else If sprite.Animations.Length < 2 Or AnimationList.Selection.Length == 0 Or currentKey == 1 Then
+    AnimButtonTop.Enabled = False
+    AnimButtonUp.Enabled = False
+  Endif
+  
+  'enable bottom/down
+  If sprite.Animations.Length > 1 And AnimationList.Selection.Length > 0 And currentKey < sprite.Animations.Length Then
+    AnimButtonBottom.Enabled = True
+    AnimButtonDown.Enabled = True
+    addFrame = True
+  Else If sprite.Animations.Length < 2 Or AnimationList.Selection.Length == 0 Or currentKey == sprite.Animations.Length Then
+    AnimButtonBottom.Enabled = False
+    AnimButtonDown.Enabled = False
+  Endif
+  
+  FrameButtonAdd.Enabled = addFrame
+  
+End
+
 
 Public Sub RefreshAList()
   
@@ -44,23 +74,82 @@ Public Sub RefreshAList()
     AnimationList.Item.Selected = True
   Endif
   
-  AnimSelectedLabel.Text = sprite.ChildSelected + 1
+  If sprite.Animations.Length == 0 Then
+    AnimSelectedLabel.Text = "NIL"
+  Else
+    AnimSelectedLabel.Text = sprite.ChildSelected + 1
+  Endif
+  
   AnimLengthLabel.Text = sprite.Animations.Length
   
+  RefreshAButtons()
+  RefreshFButtons()
+  RefreshLButtons()
+  RefreshFList()
+  
 End
+
+Public Sub RefreshFButtons()
+  
+  Dim addLayer As Boolean = False
+  Dim currentKey As Integer
+  
+  If sprite.Animations.Length > 0
+    currentKey = sprite.Animations[sprite.ChildSelected].ChildSelected + 1
+  Else
+    FrameButtonAdd.Enabled = False
+    FrameButtonTop.Enabled = False
+    FrameButtonUp.Enabled = False
+    FrameButtonDown.Enabled = False
+    FrameButtonBottom.Enabled = False
+    Return
+  Endif
+  
+  'enable top/up
+  If sprite.Animations[sprite.ChildSelected].Frames.Length > 1 And FrameList.Selection.Length > 0 And currentKey > 1 Then
+    FrameButtonTop.Enabled = True
+    FrameButtonUp.Enabled = True
+    addLayer = True
+  Else If sprite.Animations[sprite.ChildSelected].Frames.Length < 2 Or FrameList.Selection.Length == 0 Or currentKey == 1 Then
+    FrameButtonTop.Enabled = False
+    FrameButtonUp.Enabled = False
+  Endif
+  
+  'enable bottom/down
+  If sprite.Animations[sprite.ChildSelected].Frames.Length > 1 And FrameList.Selection.Length > 0 And currentKey < sprite.Animations[sprite.ChildSelected].Frames.Length Then
+    FrameButtonBottom.Enabled = True
+    FrameButtonDown.Enabled = True
+    addLayer = True
+  Else If sprite.Animations[sprite.ChildSelected].Frames.Length < 2 Or FrameList.Selection.Length == 0 Or currentKey == sprite.Animations[sprite.ChildSelected].Frames.Length Then
+    FrameButtonBottom.Enabled = False
+    FrameButtonDown.Enabled = False
+  Endif
+  
+  If sprite.Animations.Length > 0 Then
+    FrameButtonAdd.Enabled = True
+  Else
+    FrameButtonAdd.Enabled = False
+  Endif
+  
+  LayerButtonAdd.Enabled = addLayer
+  
+End
+
 
 Public Sub RefreshFList()
   
   Dim uuidF As Integer = 0
   Dim numFrames As Integer
   
+  FrameList.Clear
+  
   If sprite.Animations.Length > 0 Then
     numFrames = sprite.Animations[sprite.ChildSelected].Frames.Length
   Else
+    FrameSelectedLabel.Text = "NIL"
+    FrameLengthLabel.Text = "0"
     Return
   Endif
-  
-  FrameList.Clear
   
   For uuidF = 0 To (numFrames - 1)
     FrameList.Add(uuidF, sprite.Animations[sprite.ChildSelected].Frames[uuidF].Name)
@@ -72,8 +161,128 @@ Public Sub RefreshFList()
     FrameList.Item.Selected = True
   Endif
   
-  FrameSelectedLabel.Text = sprite.Animations[sprite.ChildSelected].ChildSelected + 1
+  If sprite.Animations[sprite.ChildSelected].Frames.Length == 0 Then
+    FrameSelectedLabel.Text = "NIL"
+  Else
+    FrameSelectedLabel.Text = sprite.Animations[sprite.ChildSelected].ChildSelected + 1
+  Endif
+  
   FrameLengthLabel.Text = sprite.Animations[sprite.ChildSelected].Frames.Length
+  
+  RefreshFButtons()
+  RefreshLButtons()
+  RefreshLList()
+  
+End
+
+Public Sub RefreshLButtons()
+  
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer
+  Dim currentL As Integer
+  
+  If sprite.Animations.Length > 0 Then
+    currentF = sprite.Animations[currentA].ChildSelected
+  Else
+    LayerButtonAdd.Enabled = False
+    LayerButtonImage.Enabled = False
+    LayerButtonTop.Enabled = False
+    LayerButtonUp.Enabled = False
+    LayerButtonDown.Enabled = False
+    LayerButtonBottom.Enabled = False
+    Return
+  Endif
+  
+  If sprite.Animations[currentA].Frames.Length > 0 Then
+    currentL = sprite.Animations[currentA].Frames[currentF].ChildSelected
+  Else
+    LayerButtonAdd.Enabled = False
+    LayerButtonImage.Enabled = False
+    LayerButtonTop.Enabled = False
+    LayerButtonUp.Enabled = False
+    LayerButtonDown.Enabled = False
+    LayerButtonBottom.Enabled = False
+    Return
+  Endif
+  
+  'enable top/up
+  If sprite.Animations[currentA].Frames[currentF].Layers.Length > 1 And LayerList.Selection.Length > 0 And currentL > 1 Then
+    LayerButtonTop.Enabled = True
+    LayerButtonUp.Enabled = True
+  Else If sprite.Animations[currentA].Frames[currentF].Layers.Length < 2 Or LayerList.Selection.Length == 0 Or currentL == 1 Then
+    LayerButtonTop.Enabled = False
+    LayerButtonUp.Enabled = False
+  Endif
+  
+  'enable bottom/down
+  If sprite.Animations[currentA].Frames[currentF].Layers.Length > 1 And LayerList.Selection.Length > 0 And currentL < sprite.Animations[currentA].Frames[currentF].Layers.Length Then
+    LayerButtonBottom.Enabled = True
+    LayerButtonDown.Enabled = True
+  Else If sprite.Animations[currentA].Frames[currentF].Layers.Length < 2 Or LayerList.Selection.Length == 0 Or currentL == sprite.Animations[currentA].Frames[currentF].Layers.Length Then
+    LayerButtonBottom.Enabled = False
+    LayerButtonDown.Enabled = False
+  Endif
+  
+  If sprite.Animations[currentA].Frames.Length > 0 Then
+    LayerButtonAdd.Enabled = True
+    LayerButtonImage.Enabled = True
+  Else
+    LayerButtonAdd.Enabled = False
+    LayerButtonImage.Enabled = False
+  Endif
+  
+End
+
+
+Public Sub RefreshLList()
+  
+  Dim uuidL As Integer = 0
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  Dim currentL As Integer
+  Dim numLayers As Integer
+  
+  If sprite.Animations.Length <= 0 Then
+    LayerSelectedLabel.Text = "NIL"
+    LayerLengthLabel.Text = "0"
+    Return
+  Endif
+  
+  If sprite.Animations[currentA].Frames.Length > 0 Then
+    currentL = sprite.Animations[currentA].Frames[currentF].ChildSelected
+  Else
+    LayerSelectedLabel.Text = "NIL"
+    LayerLengthLabel.Text = "0"
+    Return
+  Endif
+  
+  LayerList.Clear
+  
+  If sprite.Animations.Length > 0 And sprite.Animations[currentA].Frames.Length > 0 Then
+    numLayers = sprite.Animations[currentA].Frames[currentF].Layers.Length
+  Else
+    Return
+  Endif
+  
+  For uuidL = 0 To (numLayers - 1)
+    LayerList.Add(uuidL, sprite.Animations[currentA].Frames[currentF].Layers[uuidL].Name)
+  Next
+  
+  'retain selection
+  If sprite.Animations[currentA].Frames[currentF].Layers.Length > 0
+    LayerList.MoveTo(sprite.Animations[currentA].Frames[currentF].ChildSelected)
+    LayerList.Item.Selected = True
+  Endif
+  
+  If sprite.Animations[currentA].Frames[currentF].ChildSelected <= 0 Then
+    LayerSelectedLabel.Text = "NIL"
+  Else
+    LayerSelectedLabel.Text = sprite.Animations[currentA].Frames[currentF].ChildSelected + 1
+  Endif
+  
+  LayerLengthLabel.Text = sprite.Animations[currentA].Frames[currentF].Layers.Length
+  
+  RefreshLButtons()
   
 End
 
@@ -140,8 +349,6 @@ Public Sub AnimButtonAdd_Click()
   sprite.Animations.Add(newAnimation)
   sprite.ChildSelected = sprite.Animations.Length - 1
   
-  AnimLengthLabel.Text = sprite.Animations.Length
-  
   RefreshAList()
   
   AnimationList.Current.Rename
@@ -150,42 +357,14 @@ End
 
 Public Sub AnimationList_Select()
   
-  Dim currentKey As Integer
-  Dim addFrame As Boolean = False
-  
   sprite.ChildSelected = AnimationList.Current.Key
   
-  currentKey = sprite.ChildSelected + 1
+  AnimSelectedLabel.Text = sprite.ChildSelected + 1
+  AnimLengthLabel.Text = sprite.Animations.Length
   
-  AnimSelectedLabel.Text = currentKey
-  
-  'enable top/up
-  If sprite.Animations.Length > 1 And AnimationList.Selection.Length > 0 And currentKey > 1 Then
-    AnimButtonTop.Enabled = True
-    AnimButtonUp.Enabled = True
-    addFrame = True
-  Else If sprite.Animations.Length < 2 Or AnimationList.Selection.Length == 0 Or currentKey == 1 Then
-    AnimButtonTop.Enabled = False
-    AnimButtonUp.Enabled = False
-  Endif
-  
-  'enable bottom/down
-  If sprite.Animations.Length > 1 And AnimationList.Selection.Length > 0 And currentKey < sprite.Animations.Length Then
-    AnimButtonBottom.Enabled = True
-    AnimButtonDown.Enabled = True
-    addFrame = True
-  Else If sprite.Animations.Length < 2 Or AnimationList.Selection.Length == 0 Or currentKey == sprite.Animations.Length Then
-    AnimButtonBottom.Enabled = False
-    AnimButtonDown.Enabled = False
-  Endif
-  
-  FrameButtonAdd.Enabled = addFrame
-  
-  If sprite.Animations[sprite.ChildSelected].Frames.Length > 0
-    RefreshFList()
-  Else
-    FrameList.Clear
-  Endif
+  RefreshAButtons()
+  RefreshFButtons()
+  RefreshFList()
   
 End
 
@@ -310,42 +489,15 @@ End
 
 Public Sub FrameList_Select()
   
-  Dim currentKey As Integer
-  Dim addLayer As Boolean = False
   
   sprite.Animations[sprite.ChildSelected].ChildSelected = FrameList.Current.Key
   
-  currentKey = sprite.Animations[sprite.ChildSelected].ChildSelected + 1
+  FrameSelectedLabel.Text = sprite.Animations[sprite.ChildSelected].ChildSelected + 1
+  FrameLengthLabel.Text = sprite.Animations[sprite.ChildSelected].Frames.Length
   
-  FrameSelectedLabel.Text = currentKey
-  
-  'enable top/up
-  If sprite.Animations[sprite.ChildSelected].Frames.Length > 1 And FrameList.Selection.Length > 0 And currentKey > 1 Then
-    FrameButtonTop.Enabled = True
-    FrameButtonUp.Enabled = True
-    addLayer = True
-  Else If sprite.Animations[sprite.ChildSelected].Frames.Length < 2 Or FrameList.Selection.Length == 0 Or currentKey == 1 Then
-    FrameButtonTop.Enabled = False
-    FrameButtonUp.Enabled = False
-  Endif
-  
-  'enable bottom/down
-  If sprite.Animations[sprite.ChildSelected].Frames.Length > 1 And FrameList.Selection.Length > 0 And currentKey < sprite.Animations[sprite.ChildSelected].Frames.Length Then
-    FrameButtonBottom.Enabled = True
-    FrameButtonDown.Enabled = True
-    addLayer = True
-  Else If sprite.Animations[sprite.ChildSelected].Frames.Length < 2 Or FrameList.Selection.Length == 0 Or currentKey == sprite.Animations[sprite.ChildSelected].Frames.Length Then
-    FrameButtonBottom.Enabled = False
-    FrameButtonDown.Enabled = False
-  Endif
-  
-  LayerButtonAdd.Enabled = addLayer
-  
-  If sprite.Animations[sprite.ChildSelected].Frames.Length > 0
-    'RefreshLList()
-  Else
-    LayerList.Clear
-  Endif
+  RefreshFButtons()
+  'RefreshLButtons()
+  'RefreshLList()
   
 End
 
@@ -416,5 +568,34 @@ Public Sub FrameButtonDown_Click()
   
   FrameList.MoveTo(currentKey + 1)
   FrameList.Item.Selected = True
+  
+End
+
+Public Sub FrameList_KeyRelease()
+
+  Dim DialogConfirmDelete As FConfirmDelete = New FConfirmDelete
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  
+  If Key.Code == Key.Delete And sprite.Animations[currentA].Frames.Length > 0 Then
+    
+    DialogConfirmDelete.Title = "Delete Frame?"
+    DialogConfirmDelete.DeleteName = sprite.Animations[currentA].Frames[currentF].Name
+    DialogConfirmDelete.DeleteType = "frame"
+    
+    If DialogConfirmDelete.ShowModal() Then
+      sprite.Animations[currentA].Frames.Remove(currentF)
+      
+      If currentF > 0 Then
+        sprite.Animations[currentA].ChildSelected -= 1
+      Else
+        sprite.Animations[currentA].ChildSelected = 0
+      Endif
+      
+      RefreshFList()
+      RefreshLList()
+    Endif
+  
+  Endif
   
 End

@@ -34,12 +34,12 @@
         MoveScaled(5,2,16,4)
         Text = ("Delete")
         Picture = Picture["icon:/small/delete"]
+        Default = True
       }
       { Cancel Button
         MoveScaled(22,2,16,4)
         Text = ("Cancel")
         Picture = Picture["icon:/small/cancel"]
-        Default = True
         Cancel = True
       }
     }
