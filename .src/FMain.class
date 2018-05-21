@@ -156,7 +156,7 @@ Public Sub RefreshFList()
   Next
   
   'retain selection
-  If sprite.Animations[sprite.ChildSelected].Frames.Length > 0
+  If sprite.Animations[sprite.ChildSelected].Frames.Length > 0 Then
     FrameList.MoveTo(sprite.Animations[sprite.ChildSelected].ChildSelected)
     FrameList.Item.Selected = True
   Endif
@@ -480,10 +480,13 @@ Public Sub FrameButtonAdd_Click()
   newFrame.Name = tmpString
   
   sprite.Animations[sprite.ChildSelected].Frames.Add(newFrame)
+  sprite.Animations[sprite.ChildSelected].ChildSelected = sprite.Animations[sprite.ChildSelected].Frames.Length - 1
   
   FrameLengthLabel.Text = sprite.Animations[sprite.ChildSelected].Frames.Length
   
   RefreshFList()
+  
+  FrameList.Current.Rename
 
 End
 
