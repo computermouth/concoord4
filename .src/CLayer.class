@@ -7,5 +7,5 @@ Public Type As String
 Public B64Image As String
 Public XPoints As Integer[]
 Public YPoints As Integer[]
-Public CountPoints As Integer[]
-Public Color As Color
+Public CountImages As Integer
+Public Color As Integer

@@ -194,7 +194,7 @@ Public Sub RefreshLButtons()
   Endif
   
   If sprite.Animations[currentA].Frames.Length > 0 Then
-    currentL = sprite.Animations[currentA].Frames[currentF].ChildSelected
+    currentL = sprite.Animations[currentA].Frames[currentF].ChildSelected + 1
   Else
     LayerButtonAdd.Enabled = False
     LayerButtonImage.Enabled = False
@@ -242,6 +242,8 @@ Public Sub RefreshLList()
   Dim currentL As Integer
   Dim numLayers As Integer
   
+  LayerList.Clear
+  
   If sprite.Animations.Length <= 0 Then
     LayerSelectedLabel.Text = "NIL"
     LayerLengthLabel.Text = "0"
@@ -256,7 +258,6 @@ Public Sub RefreshLList()
     Return
   Endif
   
-  LayerList.Clear
   
   If sprite.Animations.Length > 0 And sprite.Animations[currentA].Frames.Length > 0 Then
     numLayers = sprite.Animations[currentA].Frames[currentF].Layers.Length
@@ -274,7 +275,7 @@ Public Sub RefreshLList()
     LayerList.Item.Selected = True
   Endif
   
-  If sprite.Animations[currentA].Frames[currentF].ChildSelected <= 0 Then
+  If sprite.Animations[currentA].Frames[currentF].Layers.Length == 0 Then
     LayerSelectedLabel.Text = "NIL"
   Else
     LayerSelectedLabel.Text = sprite.Animations[currentA].Frames[currentF].ChildSelected + 1
@@ -320,18 +321,6 @@ Public Sub Canvas_Draw()
   Paint.Stroke
 
 End
-
-Public Sub LayerButtonImage_Click()
-  
-  Dialog.Filter = ["*.png;*.jpg;*.jpeg;*.bmp", "Picture files"]
-  If Dialog.OpenFile() Then
-    Print "cancel"
-  Else
-    Print Dialog.Path
-  Endif
-
-End
-
 
 Public Sub AnimButtonAdd_Click()
   
@@ -499,8 +488,8 @@ Public Sub FrameList_Select()
   FrameLengthLabel.Text = sprite.Animations[sprite.ChildSelected].Frames.Length
   
   RefreshFButtons()
-  'RefreshLButtons()
-  'RefreshLList()
+  RefreshLButtons()
+  RefreshLList()
   
 End
 
@@ -596,6 +585,172 @@ Public Sub FrameList_KeyRelease()
       Endif
       
       RefreshFList()
+      RefreshLList()
+    Endif
+  
+  Endif
+  
+End
+
+Public Sub LayerButtonAdd_Click()
+  
+  Dim tmpString As String
+  Dim newLayer As CLayer = New CLayer
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  Dim currentL As Integer = sprite.Animations[currentA].Frames[currentF].ChildSelected
+  
+  sprite.Animations[currentA].Frames[currentF].ChildrenCreated += 1
+  tmpString = "layer_" & CStr(sprite.Animations[currentA].Frames[currentF].ChildrenCreated)
+  
+  newLayer.Name = tmpString
+  newLayer.ChildSelected = 0
+  newLayer.ChildrenCreated = 0
+  newLayer.Type = "Polygon"
+  newLayer.B64Image = ""
+  newLayer.XPoints = New Integer[]
+  newLayer.YPoints = New Integer[]
+  newLayer.Color = ColorButtonFill.Color
+  
+  sprite.Animations[currentA].Frames[currentF].Layers.Add(newLayer)
+  sprite.Animations[currentA].Frames[currentF].ChildSelected = sprite.Animations[currentA].Frames[currentF].Layers.Length - 1
+  
+  LayerLengthLabel.Text = sprite.Animations[currentA].Frames[currentF].Layers.Length
+  
+  RefreshLList()
+  
+  LayerList.Current.Rename
+
+End
+
+Public Sub LayerButtonImage_Click()
+  
+  Dialog.Filter = ["*.png;*.jpg;*.jpeg;*.bmp", "Picture files"]
+  If Dialog.OpenFile() Then
+    Print "cancel"
+  Else
+    Print Dialog.Path
+  Endif
+
+End
+
+Public Sub LayerList_Select()
+  
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  
+  sprite.Animations[currentA].Frames[currentF].ChildSelected = LayerList.Current.Key
+  
+  LayerSelectedLabel.Text = sprite.Animations[currentA].Frames[currentF].ChildSelected + 1
+  LayerLengthLabel.Text = sprite.Animations[currentA].Frames[currentF].Layers.Length
+  
+  RefreshLButtons()
+  Canvas.Refresh()
+  
+End
+
+Public Sub LayerList_Rename()
+  
+  Dim currentKey As Integer = LayerList.Current.Key
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  
+  sprite.Animations[currentA].Frames[currentF].Layers[currentKey].Name = LayerList.Current.Text
+
+End
+
+Public Sub LayerList_DblClick()
+
+  LayerList.Current.Rename
+
+End
+
+Public Sub LayerButtonTop_Click()
+
+  Dim currentKey As Integer = LayerList.Current.Key
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  
+  sprite.Animations[currentA].Frames[currentF].Layers.Add(sprite.Animations[currentA].Frames[currentF].Layers[currentKey], 0)
+  sprite.Animations[currentA].Frames[currentF].Layers.Remove(currentKey + 1)
+  
+  RefreshLList()
+  
+  LayerList.MoveTo("0")
+  LayerList.Item.Selected = True
+  
+End
+
+Public Sub LayerButtonUp_Click()
+
+  Dim currentKey As Integer = LayerList.Current.Key
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  
+  sprite.Animations[currentA].Frames[currentF].Layers.Add(sprite.Animations[currentA].Frames[currentF].Layers[currentKey], currentKey - 1)
+  sprite.Animations[currentA].Frames[currentF].Layers.Remove(currentKey + 1)
+  
+  RefreshLList()
+  
+  LayerList.MoveTo(currentKey - 1)
+  LayerList.Item.Selected = True
+
+End
+
+Public Sub LayerButtonBottom_Click()
+  
+  Dim currentKey As Integer = LayerList.Current.Key
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  
+  sprite.Animations[currentA].Frames[currentF].Layers.Add(sprite.Animations[currentA].Frames[currentF].Layers[currentKey])
+  sprite.Animations[currentA].Frames[currentF].Layers.Remove(currentKey)
+  
+  RefreshLList()
+  
+  LayerList.MoveTo(sprite.Animations[currentA].Frames[currentF].Layers.Length - 1)
+  LayerList.Item.Selected = True
+
+End
+
+Public Sub LayerButtonDown_Click()
+
+  Dim currentKey As Integer = LayerList.Current.Key
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  
+  sprite.Animations[currentA].Frames[currentF].Layers.Add(sprite.Animations[currentA].Frames[currentF].Layers[currentKey], currentKey + 2)
+  sprite.Animations[currentA].Frames[currentF].Layers.Remove(currentKey)
+  
+  RefreshLList()
+  
+  LayerList.MoveTo(currentKey + 1)
+  LayerList.Item.Selected = True
+  
+End
+
+Public Sub LayerList_KeyRelease()
+
+  Dim DialogConfirmDelete As FConfirmDelete = New FConfirmDelete
+  Dim currentA As Integer = sprite.ChildSelected
+  Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
+  Dim currentL As Integer = sprite.Animations[currentA].Frames[currentF].ChildSelected
+  
+  If Key.Code == Key.Delete And sprite.Animations[currentA].Frames[currentF].Layers.Length > 0 Then
+    
+    DialogConfirmDelete.Title = "Delete Layer?"
+    DialogConfirmDelete.DeleteName = sprite.Animations[currentA].Frames[currentF].Layers[currentL].Name
+    DialogConfirmDelete.DeleteType = "layer"
+    
+    If DialogConfirmDelete.ShowModal() Then
+      sprite.Animations[currentA].Frames[currentF].Layers.Remove(currentL)
+      
+      If currentL > 0 Then
+        sprite.Animations[currentA].Frames[currentF].ChildSelected -= 1
+      Else
+        sprite.Animations[currentA].Frames[currentF].ChildSelected = 0
+      Endif
+      
       RefreshLList()
     Endif
   

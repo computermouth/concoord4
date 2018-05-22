@@ -318,11 +318,11 @@
               AutoResize = True
               Picture = Picture["icon:/small/mouse"]
             }
-            { ColorButton1 ColorButton
+            { ColorButtonOutline ColorButton
               MoveScaled(1,13,4,5)
               Enabled = False
             }
-            { ColorButton2 ColorButton
+            { ColorButtonFill ColorButton
               MoveScaled(1,19,4,5)
               Enabled = False
             }
