@@ -3,50 +3,50 @@
 { Form Form
   MoveScaled(0,0,197,109)
   Arrangement = Arrange.Fill
-  { File Menu
+  { FileMenu Menu
     Text = ("File")
-    { New Menu
+    { NewMenu Menu
       Text = ("New")
       Picture = Picture["icon:/small/new"]
       Shortcut = "Ctrl+N"
     }
-    { Open Menu
+    { OpenMenu Menu
       Text = ("Open")
       Picture = Picture["icon:/small/open"]
       Shortcut = "Ctrl+O"
     }
-    { Save Menu
+    { SaveMenu Menu
       Text = ("Save")
       Picture = Picture["icon:/small/save"]
       Shortcut = "Ctrl+S"
     }
-    { SaveAs Menu
+    { SaveAsMenu Menu
       Text = ("Save As") & "..."
       Picture = Picture["icon:/small/save-as"]
       Shortcut = "Ctrl+Shift+S"
     }
-    { Quit Menu
+    { QuitMenu Menu
       Text = ("Quit")
       Picture = Picture["icon:/small/quit"]
       Shortcut = "Ctrl+Q"
     }
   }
-  { Edit Menu
+  { EditMenu Menu
     Text = ("Edit")
-    { Preferences Menu
+    { PreferencesMenu Menu
       Text = ("Preferences")
       Picture = Picture["icon:/small/properties"]
       Shortcut = "Ctrl+P"
     }
   }
-  { Help Menu
+  { HelpMenu Menu
     Text = ("Help")
     { Menu1 Menu
       Text = ("Help")
       Picture = Picture["icon:/small/help"]
       Shortcut = "F1"
     }
-    { About Menu
+    { AboutMenu Menu
       Text = ("About")
       Picture = Picture["icon:/small/access"]
     }

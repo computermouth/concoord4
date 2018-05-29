@@ -302,6 +302,16 @@ Public Sub Canvas_Draw()
   
   Dim Dashes As Float[] = [1.0, 1.0]
   
+  Dim currentA As Integer
+  Dim currentF As Integer
+  Dim tmpLayer As CLayer
+  Dim tmpPicture As Picture
+  Dim pBrush As PaintBrush
+  
+  Dim i, j, x, y As Integer
+  Dim tmpImage As Image = New Image
+  Dim tmpPixels As Integer[]
+  
   If Canvas.W / DefaultX >= Canvas.H / DefaultY Then
     Ratio = Canvas.H / DefaultY * 0.9
   Else
@@ -309,6 +319,55 @@ Public Sub Canvas_Draw()
   Endif
   
   Paint.Reset
+  
+  
+  If sprite.Animations.Length > 0 Then
+    currentA = sprite.ChildSelected
+    If sprite.Animations[currentA].Frames.Length > 0 Then
+      currentF = sprite.Animations[currentA].ChildSelected
+      If sprite.Animations[currentA].Frames[currentF].Layers.Length > 0 Then
+        
+        For i = 0 To sprite.Animations[currentA].Frames[currentF].Layers.Length - 1
+          
+          j = 0
+          tmpLayer = sprite.Animations[currentA].Frames[currentF].Layers[i]
+          
+          If tmpLayer.Polygon == False Then
+            tmpPixels = sprite.Animations[currentA].Frames[currentF].Layers[i].Pixels
+          
+            Print tmpPixels[0]
+            
+            For y = 0 To tmpLayer.ImageHeight - 1
+              For x = 0 To tmpLayer.ImageWidth - 1
+                tmpImage[x, y] = sprite.Animations[currentA].Frames[currentF].Layers[i].Pixels[j]
+                j += 1
+              Next
+            Next
+            
+            tmpImage.H = sprite.Animations[currentA].Frames[currentF].Layers[i].ImageHeight
+            tmpImage.W = sprite.Animations[currentA].Frames[currentF].Layers[i].ImageWidth
+            
+            Print "ti.h"
+            Print tmpImage.H
+            
+            pBrush = Paint.Image(tmpImage)
+            'pBrush.Translate(10, 100)
+            'pBrush.Scale(10, 10)
+            Paint.Brush = pBrush
+            'Paint.Rectangle(100, 100, 100, 100)
+            Paint.Fill
+            
+          Else
+            
+          Endif
+          
+        Next
+        
+      Endif
+    Endif
+  Endif
+  
+  
   
   Paint.LineWidth = 1
   Paint.Brush = Paint.Color(Color.Black)
@@ -592,13 +651,18 @@ Public Sub FrameList_KeyRelease()
   
 End
 
-Public Sub LayerButtonAdd_Click()
+
+Public Sub LayerAdd(polygon As Boolean, Optional imagePath As String = "")
   
   Dim tmpString As String
   Dim newLayer As CLayer = New CLayer
   Dim currentA As Integer = sprite.ChildSelected
   Dim currentF As Integer = sprite.Animations[currentA].ChildSelected
   Dim currentL As Integer = sprite.Animations[currentA].Frames[currentF].ChildSelected
+  Dim pArray As Integer[]
+  Dim x, y As Integer
+  Dim tmpImage As Image
+  Dim thing As String
   
   sprite.Animations[currentA].Frames[currentF].ChildrenCreated += 1
   tmpString = "layer_" & CStr(sprite.Animations[currentA].Frames[currentF].ChildrenCreated)
@@ -606,8 +670,36 @@ Public Sub LayerButtonAdd_Click()
   newLayer.Name = tmpString
   newLayer.ChildSelected = 0
   newLayer.ChildrenCreated = 0
-  newLayer.Type = "Polygon"
-  newLayer.B64Image = ""
+  
+  
+  If polygon == True Then
+    newLayer.Polygon = True
+  Else
+    newLayer.Polygon = False
+    'newLayer.Pixels = New Integer[]
+    tmpImage = Image.Load(imagePath)
+    newLayer.ImageHeight = tmpImage.H
+    newLayer.ImageWidth = tmpImage.W
+    
+    Print tmpImage.Depth
+    Print tmpImage.Format
+    Print tmpImage.H
+    Print tmpImage.Pixels
+    Print tmpImage.W
+    
+    newLayer.Pixels = tmpImage.Pixels.Copy()
+    
+    Print Hex$(tmpImage.Pixels[0])
+    Print Hex$(tmpImage.Pixels[1])
+    Print Hex$(newLayer.Pixels[0])
+    Print Hex$(newLayer.Pixels[1])
+    
+    thing = CStr(tmpImage.Copy())
+    
+    Print thing
+    
+  Endif
+  
   newLayer.XPoints = New Integer[]
   newLayer.YPoints = New Integer[]
   newLayer.Color = ColorButtonFill.Color
@@ -620,16 +712,27 @@ Public Sub LayerButtonAdd_Click()
   RefreshLList()
   
   LayerList.Current.Rename
+  
+End
+
+
+Public Sub LayerButtonAdd_Click()
+  
+  Dim polygon As Boolean = True
+  
+  LayerAdd(polygon)
 
 End
 
 Public Sub LayerButtonImage_Click()
   
+  Dim polygon As Boolean = False
+  
   Dialog.Filter = ["*.png;*.jpg;*.jpeg;*.bmp", "Picture files"]
   If Dialog.OpenFile() Then
-    Print "cancel"
+    'sorry
   Else
-    Print Dialog.Path
+    LayerAdd(polygon, Dialog.Path)
   Endif
 
 End
